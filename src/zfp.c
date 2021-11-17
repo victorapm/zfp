@@ -9,6 +9,7 @@
 
 /* public data ------------------------------------------------------------- */
 
+uint zfp_consumed_bits = 0;
 const uint zfp_codec_version = ZFP_CODEC;
 const uint zfp_library_version = ZFP_VERSION;
 const char* const zfp_version_string = "zfp version " ZFP_VERSION_STRING " (May 5, 2019)";
@@ -499,7 +500,7 @@ zfp_config_reversible()
 }
 
 zfp_config
-zfp_config_expert(    
+zfp_config_expert(
   uint minbits,
   uint maxbits,
   uint maxprec,
@@ -1074,6 +1075,9 @@ zfp_compress(zfp_stream* zfp, const zfp_field* field)
     default:
       return 0;
   }
+
+  /* Initialize bits consumption tracker */
+  zfp_consumed_bits = 0;
 
   /* return 0 if compression mode is not supported */
   compress = ftable[exec][strided][dims - 1][type - zfp_type_int32];

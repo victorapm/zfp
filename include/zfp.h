@@ -146,6 +146,7 @@ extern "C" {
 
 /* public data ------------------------------------------------------------- */
 
+extern_ uint zfp_consumed_bits;               /* Track amount of input consumed bits */
 extern_ const uint zfp_codec_version;         /* codec version ZFP_CODEC */
 extern_ const uint zfp_library_version;       /* library version ZFP_VERSION */
 extern_ const char* const zfp_version_string; /* verbose version string */

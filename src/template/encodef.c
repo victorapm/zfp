@@ -73,6 +73,7 @@ _t2(encode_block, Scalar, DIMS)(zfp_stream* zfp, const Scalar* fblock)
     /* encode common exponent; LSB indicates that exponent is nonzero */
     bits += EBITS;
     stream_write_bits(zfp->stream, 2 * e + 1, bits);
+    zfp_consumed_bits += bits;
     /* perform forward block-floating-point transform */
     _t1(fwd_cast, Scalar)(iblock, fblock, BLOCK_SIZE, emax);
     /* encode integer block */
@@ -81,6 +82,7 @@ _t2(encode_block, Scalar, DIMS)(zfp_stream* zfp, const Scalar* fblock)
   else {
     /* write single zero-bit to indicate that all values are zero */
     stream_write_bit(zfp->stream, 0);
+    zfp_consumed_bits += 1;
     if (zfp->minbits > bits) {
       stream_pad(zfp->stream, zfp->minbits - bits);
       bits = zfp->minbits;

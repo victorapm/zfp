@@ -612,6 +612,7 @@ int main(int argc, char* argv[])
     const char* type_name[] = { "int32", "int64", "float", "double" };
     fprintf(stderr, "type=%s nx=%zu ny=%zu nz=%zu nw=%zu", type_name[type - zfp_type_int32], nx, ny, nz, nw);
     fprintf(stderr, " raw=%lu zfp=%lu ratio=%.3g rate=%.4g", (unsigned long)rawsize, (unsigned long)zfpsize, (double)rawsize / zfpsize, CHAR_BIT * (double)zfpsize / count);
+    fprintf(stderr, " consumed bits=%lu", (unsigned long)zfp_consumed_bits);
     if (stats)
       print_error(fi, fo, type, count);
     fprintf(stderr, "\n");

@@ -109,6 +109,7 @@ _t1(encode_few_ints, UInt)(bitstream* restrict_ stream, uint maxbits, uint maxpr
     m = MIN(n, bits);
     bits -= m;
     x = stream_write_bits(&s, x, m);
+    zfp_consumed_bits += m;
     /* step 3: unary run-length encode remainder of bit plane */
     for (; bits && n < size; x >>= 1, n++) {
       bits--;
@@ -116,12 +117,14 @@ _t1(encode_few_ints, UInt)(bitstream* restrict_ stream, uint maxbits, uint maxpr
         /* positive group test (x != 0); scan for one-bit */
         for (; bits && n < size - 1; x >>= 1, n++) {
           bits--;
+          zfp_consumed_bits += 1;
           if (stream_write_bit(&s, x & 1u))
             break;
         }
       }
       else {
         /* negative group test (x == 0); done with bit plane */
+        zfp_consumed_bits += (size - n);
         break;
       }
     }
